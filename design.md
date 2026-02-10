@@ -1,96 +1,234 @@
-# PoultryMitra AI System Design
+# PoultryMitra AI System Design - Powered by AWS
+
+**AI for Bharat – Powered by AWS**
 
 ## Overview
 
-PoultryMitra AI is a comprehensive farm management platform designed specifically for Indian poultry farmers. The system provides digital tools for managing farm operations, tracking poultry health and production, financial management, and AI-powered assistance. The platform supports both Desi and Commercial poultry breeds and operates effectively in rural Indian conditions with limited connectivity.
+PoultryMitra AI is a comprehensive farm management platform designed specifically for Indian poultry farmers, built entirely on AWS cloud infrastructure. The system provides digital tools for managing farm operations, tracking poultry health and production, financial management, and AI-powered assistance using Amazon Bedrock. The platform supports both Desi and Commercial poultry breeds and operates effectively in rural Indian conditions with limited connectivity through AWS Amplify's offline-first architecture.
+
+**AWS-Powered Innovation:**
+- **Amazon Bedrock AI**: Multilingual conversational AI for farming guidance in Hindi, Tamil, Telugu, and English
+- **AWS Amplify**: Offline-first mobile experience with automatic cloud synchronization
+- **Serverless Architecture**: Cost-effective scaling from 10 to 10,000+ farmers using AWS Lambda
+- **Mumbai Region**: Low-latency access for Indian farmers with AWS Asia Pacific (Mumbai) infrastructure
+- **Rural Optimization**: CloudFront edge caching and optimized for intermittent connectivity
 
 ## Architecture
 
 ### High-Level Architecture
 
-The system follows a modern cloud-native architecture with offline-first capabilities:
+The system leverages AWS cloud services for a scalable, secure, and cost-effective architecture optimized for Indian rural conditions with offline-first capabilities:
 
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        Mobile[Mobile App]
-        Web[Web Application]
+        Mobile[Mobile App - AWS Amplify]
+        Web[Web App - AWS Amplify Hosting]
     end
     
-    subgraph "API Gateway"
-        Gateway[API Gateway/Load Balancer]
+    subgraph "AWS Edge & API Layer"
+        CloudFront[Amazon CloudFront CDN]
+        APIGateway[Amazon API Gateway]
+        Cognito[Amazon Cognito]
     end
     
-    subgraph "Application Services"
-        Auth[Authentication Service]
-        Farm[Farm Management Service]
-        Poultry[Poultry Tracking Service]
-        Feed[Feed Management Service]
-        Health[Health Management Service]
-        Finance[Financial Service]
-        AI[AI Assistant Service]
-        Reports[Reporting Service]
-        Notifications[Notification Service]
+    subgraph "AWS Compute Layer"
+        Lambda[AWS Lambda Functions]
+        ECS[Amazon ECS/Fargate]
     end
     
-    subgraph "Data Layer"
-        Primary[(Primary Database)]
-        Cache[(Redis Cache)]
-        Files[File Storage]
+    subgraph "AWS AI/ML Services"
+        Bedrock[Amazon Bedrock - AI Assistant]
+        Translate[Amazon Translate]
+        Polly[Amazon Polly - Voice]
+        Comprehend[Amazon Comprehend]
     end
     
-    subgraph "External Services"
-        SMS[SMS Gateway]
-        Weather[Weather API]
-        AI_API[AI/ML APIs]
+    subgraph "AWS Data Layer"
+        RDS[Amazon RDS PostgreSQL]
+        DynamoDB[Amazon DynamoDB]
+        ElastiCache[Amazon ElastiCache Redis]
+        S3[Amazon S3 - File Storage]
     end
     
-    Mobile --> Gateway
-    Web --> Gateway
-    Gateway --> Auth
-    Gateway --> Farm
-    Gateway --> Poultry
-    Gateway --> Feed
-    Gateway --> Health
-    Gateway --> Finance
-    Gateway --> AI
-    Gateway --> Reports
-    Gateway --> Notifications
+    subgraph "AWS Integration Services"
+        SNS[Amazon SNS - Notifications]
+        SES[Amazon SES - Email]
+        EventBridge[Amazon EventBridge]
+        SQS[Amazon SQS - Message Queue]
+    end
     
-    Auth --> Primary
-    Farm --> Primary
-    Poultry --> Primary
-    Feed --> Primary
-    Health --> Primary
-    Finance --> Primary
-    AI --> AI_API
-    Reports --> Primary
-    Notifications --> SMS
+    subgraph "AWS Analytics & Monitoring"
+        CloudWatch[Amazon CloudWatch]
+        XRay[AWS X-Ray]
+        QuickSight[Amazon QuickSight]
+    end
     
-    Auth --> Cache
-    Farm --> Cache
-    AI --> Weather
+    Mobile --> CloudFront
+    Web --> CloudFront
+    CloudFront --> APIGateway
+    APIGateway --> Cognito
+    APIGateway --> Lambda
+    APIGateway --> ECS
+    
+    Lambda --> RDS
+    Lambda --> DynamoDB
+    Lambda --> ElastiCache
+    Lambda --> S3
+    Lambda --> Bedrock
+    Lambda --> Translate
+    Lambda --> SNS
+    Lambda --> SQS
+    
+    ECS --> RDS
+    ECS --> DynamoDB
+    ECS --> Bedrock
+    
+    SNS --> Mobile
+    EventBridge --> Lambda
+    
+    Lambda --> CloudWatch
+    ECS --> CloudWatch
+    Lambda --> XRay
 ```
 
 ### Core Architectural Principles
 
-1. **Offline-First Design**: Critical operations work without internet connectivity
-2. **Mobile-Optimized**: Touch-friendly interfaces with fast loading times
-3. **Multi-Language Support**: Full localization for Indian languages
-4. **Scalable Microservices**: Independent services for different functional areas
-5. **Security-First**: End-to-end encryption and role-based access control
-6. **Rural-Friendly**: Optimized for low-bandwidth and intermittent connectivity
+1. **AWS-Native Cloud Architecture**: Leveraging managed AWS services for scalability and reliability
+2. **Serverless-First**: AWS Lambda and Fargate for cost-effective, auto-scaling compute
+3. **Offline-First Design**: AWS Amplify DataStore for seamless offline/online sync
+4. **AI-Powered**: Amazon Bedrock for multilingual AI assistance with Indian context
+5. **Security-First**: AWS Cognito, IAM, and encryption services for comprehensive security
+6. **Rural-Optimized**: CloudFront edge locations and optimized for low-bandwidth scenarios
+7. **Cost-Effective**: Pay-per-use AWS services ideal for growing farmer base
+
+## Technology Stack - AWS-Powered
+
+### Frontend
+- **Framework**: React.js with TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: AWS Amplify DataStore
+- **Hosting**: AWS Amplify Hosting with CI/CD
+- **CDN**: Amazon CloudFront for global delivery
+- **Offline Support**: AWS Amplify DataStore with automatic sync
+
+### Backend
+- **Compute**: AWS Lambda (Node.js 20.x runtime) for serverless APIs
+- **Container Services**: Amazon ECS Fargate for long-running processes
+- **API Layer**: Amazon API Gateway (REST + WebSocket)
+- **Authentication**: Amazon Cognito User Pools
+- **Authorization**: Amazon Cognito Identity Pools + IAM
+
+### Database & Storage
+- **Relational Database**: Amazon RDS PostgreSQL 15 (Multi-AZ for production)
+- **NoSQL Database**: Amazon DynamoDB (on-demand pricing)
+- **Caching**: Amazon ElastiCache Redis
+- **File Storage**: Amazon S3 with Intelligent-Tiering
+- **Data Warehouse**: Amazon Redshift (for analytics, optional)
+
+### AI & ML Services
+- **AI Assistant**: Amazon Bedrock (Claude 3 Sonnet or Llama 3)
+- **Translation**: Amazon Translate (English, Hindi, Tamil, Telugu)
+- **Voice**: Amazon Polly (Neural voices for Indian languages)
+- **Text Analysis**: Amazon Comprehend (sentiment, entity extraction)
+- **Recommendations**: Amazon Personalize (optional for advanced features)
+
+### Integration & Messaging
+- **Notifications**: Amazon SNS (SMS, push, email)
+- **Email**: Amazon SES (transactional emails)
+- **Event Bus**: Amazon EventBridge (scheduled tasks, event routing)
+- **Message Queue**: Amazon SQS (asynchronous processing)
+- **Workflow**: AWS Step Functions (complex workflows, optional)
+
+### Analytics & Reporting
+- **Business Intelligence**: Amazon QuickSight (dashboards, reports)
+- **Log Analytics**: Amazon CloudWatch Logs Insights
+- **Data Query**: Amazon Athena (S3 data lake queries)
+- **Metrics**: Amazon CloudWatch Metrics
+
+### DevOps & Monitoring
+- **CI/CD**: AWS Amplify CI/CD + AWS CodePipeline
+- **Infrastructure as Code**: AWS CDK (TypeScript)
+- **Monitoring**: Amazon CloudWatch (logs, metrics, alarms)
+- **Tracing**: AWS X-Ray (distributed tracing)
+- **Secrets**: AWS Secrets Manager
+- **Configuration**: AWS Systems Manager Parameter Store
+
+### Security
+- **Identity**: Amazon Cognito + AWS IAM
+- **Encryption**: AWS KMS (key management)
+- **WAF**: AWS WAF (web application firewall)
+- **DDoS Protection**: AWS Shield Standard (free)
+- **Compliance**: AWS Config, AWS CloudTrail
+- **Network**: Amazon VPC, Security Groups, NACLs
+
+### Cost Optimization
+- **Compute**: Lambda (pay-per-request), Fargate Spot (70% savings)
+- **Database**: RDS Reserved Instances, DynamoDB on-demand
+- **Storage**: S3 Intelligent-Tiering, lifecycle policies
+- **Monitoring**: AWS Cost Explorer, AWS Budgets with alerts
+5. **Security-First**: AWS Cognito, IAM, and encryption services for comprehensive security
+6. **Rural-Optimized**: CloudFront edge locations and optimized for low-bandwidth scenarios
+7. **Cost-Effective**: Pay-per-use AWS services ideal for growing farmer base
+
+### AWS Service Selection Rationale
+
+**Why AWS for Indian Poultry Farmers:**
+- **Mumbai Region Presence**: Low latency for Indian users with AWS Asia Pacific (Mumbai) region
+- **Cost Optimization**: AWS Free Tier and pay-as-you-grow pricing suitable for agricultural startups
+- **AI/ML Capabilities**: Amazon Bedrock provides state-of-the-art AI with Indian language support
+- **Scalability**: Automatic scaling from 10 to 10,000+ farmers without infrastructure changes
+- **Reliability**: 99.99% SLA for critical farming operations
+- **Rural Connectivity**: CloudFront CDN and edge caching for low-bandwidth optimization
+- **Compliance**: AWS meets Indian data residency and privacy requirements
+
+## AWS Service Mapping
+
+### AWS Services by Function
+
+| Function | AWS Service | Justification |
+|----------|-------------|---------------|
+| **Frontend Hosting** | AWS Amplify Hosting | Automatic CI/CD, CDN integration, custom domains |
+| **Mobile/Web Framework** | AWS Amplify | Offline sync, authentication integration, real-time data |
+| **API Management** | Amazon API Gateway | RESTful APIs, WebSocket support, request throttling |
+| **Authentication** | Amazon Cognito | User pools, MFA, social login, secure token management |
+| **Compute - Lightweight** | AWS Lambda | Serverless, auto-scaling, pay-per-request pricing |
+| **Compute - Long-running** | Amazon ECS Fargate | Containerized services, no server management |
+| **Primary Database** | Amazon RDS PostgreSQL | ACID compliance, automated backups, read replicas |
+| **NoSQL Database** | Amazon DynamoDB | Fast key-value access, offline sync with Amplify |
+| **Caching** | Amazon ElastiCache Redis | Session storage, API response caching |
+| **File Storage** | Amazon S3 | Scalable object storage, lifecycle policies, low cost |
+| **AI Assistant** | Amazon Bedrock | Claude/Llama models, multilingual, contextual AI |
+| **Translation** | Amazon Translate | Real-time translation for 4 Indian languages |
+| **Voice Output** | Amazon Polly | Text-to-speech in Hindi, Tamil, Telugu |
+| **Text Analysis** | Amazon Comprehend | Sentiment analysis, entity extraction |
+| **Notifications** | Amazon SNS | Push notifications, SMS, email delivery |
+| **Email Service** | Amazon SES | Transactional emails, reports delivery |
+| **Event Processing** | Amazon EventBridge | Scheduled tasks, event-driven workflows |
+| **Message Queue** | Amazon SQS | Asynchronous processing, decoupling services |
+| **Monitoring** | Amazon CloudWatch | Logs, metrics, alarms, dashboards |
+| **Tracing** | AWS X-Ray | Distributed tracing, performance analysis |
+| **Analytics** | Amazon QuickSight | Business intelligence, visual reports |
+| **CDN** | Amazon CloudFront | Global content delivery, edge caching |
+| **Secrets Management** | AWS Secrets Manager | API keys, database credentials rotation |
+| **Parameter Store** | AWS Systems Manager | Configuration management |
 
 ## Components and Interfaces
 
-### 1. Authentication Service
+### 1. Authentication Service (Amazon Cognito + AWS Lambda)
+
+**AWS Services Used:**
+- **Amazon Cognito User Pools**: User directory, authentication, MFA
+- **Amazon Cognito Identity Pools**: Federated identities, temporary AWS credentials
+- **AWS Lambda**: Custom authentication flows, post-authentication triggers
+- **Amazon DynamoDB**: User profile and preferences storage
 
 **Responsibilities:**
-- User registration and login
-- JWT token management
-- Role-based access control
-- Session management
-- Password security
+- User registration and login via Cognito
+- JWT token management (Cognito-issued tokens)
+- Role-based access control with Cognito groups
+- Session management with token refresh
+- Password security with Cognito password policies
 
 **Key Interfaces:**
 ```typescript
@@ -122,13 +260,20 @@ interface AuthResult {
 }
 ```
 
-### 2. Farm Management Service
+### 2. Farm Management Service (AWS Lambda + Amazon RDS)
+
+**AWS Services Used:**
+- **AWS Lambda**: Serverless API handlers for farm operations
+- **Amazon RDS PostgreSQL**: Relational data storage for farms and batches
+- **Amazon DynamoDB**: Fast access to active batch data
+- **Amazon S3**: Farm photos and documents storage
+- **Amazon ElastiCache**: Caching frequently accessed farm data
 
 **Responsibilities:**
-- Farm profile management
-- Batch creation and tracking
-- Breed classification (Desi/Commercial)
-- Farm-level analytics
+- Farm profile management with S3 photo storage
+- Batch creation and tracking in RDS
+- Breed classification (Desi/Commercial) with metadata
+- Farm-level analytics using CloudWatch metrics
 
 **Key Interfaces:**
 ```typescript
@@ -157,13 +302,20 @@ enum BreedType {
 }
 ```
 
-### 3. Poultry Tracking Service
+### 3. Poultry Tracking Service (AWS Lambda + Amazon DynamoDB)
+
+**AWS Services Used:**
+- **AWS Lambda**: Event-driven processing of tracking data
+- **Amazon DynamoDB**: Time-series data for production records
+- **Amazon EventBridge**: Scheduled daily tracking reminders
+- **Amazon SNS**: Alerts for abnormal mortality rates
+- **Amazon QuickSight**: Production trend visualization
 
 **Responsibilities:**
-- Bird count tracking
-- Mortality logging
-- Egg production records
-- Production analytics
+- Bird count tracking with DynamoDB time-series
+- Mortality logging with EventBridge alerts
+- Egg production records in DynamoDB
+- Production analytics via QuickSight dashboards
 
 **Key Interfaces:**
 ```typescript
@@ -192,13 +344,20 @@ interface MortalityRecord {
 }
 ```
 
-### 4. Feed Management Service
+### 4. Feed Management Service (AWS Lambda + Amazon RDS)
+
+**AWS Services Used:**
+- **AWS Lambda**: Feed calculation and recommendation engine
+- **Amazon RDS PostgreSQL**: Feed records and pricing history
+- **Amazon DynamoDB**: Real-time feed inventory tracking
+- **Amazon SQS**: Asynchronous cost calculation processing
+- **Amazon SNS**: Low stock alerts
 
 **Responsibilities:**
-- Daily feed consumption tracking
-- Feed cost calculation
-- Feed inventory management
-- Feed efficiency analytics
+- Daily feed consumption tracking in RDS
+- Feed cost calculation with Lambda functions
+- Feed inventory management in DynamoDB
+- Feed efficiency analytics with CloudWatch metrics
 
 **Key Interfaces:**
 ```typescript
@@ -227,13 +386,20 @@ interface FeedEfficiencyMetrics {
 }
 ```
 
-### 5. Health Management Service
+### 5. Health Management Service (AWS Lambda + Amazon EventBridge)
+
+**AWS Services Used:**
+- **AWS Lambda**: Health schedule generation and alert processing
+- **Amazon RDS PostgreSQL**: Health records and vaccination history
+- **Amazon EventBridge**: Scheduled vaccination reminders
+- **Amazon SNS**: Multi-channel health alerts (SMS, push, email)
+- **Amazon Comprehend**: Disease symptom analysis from text input
 
 **Responsibilities:**
-- Vaccination schedule management
-- Health alerts and reminders
-- Disease tracking
-- Health protocol compliance
+- Vaccination schedule management with EventBridge rules
+- Health alerts and reminders via SNS
+- Disease tracking with Comprehend text analysis
+- Health protocol compliance monitoring
 
 **Key Interfaces:**
 ```typescript
@@ -265,13 +431,20 @@ interface HealthIssueRecord {
 }
 ```
 
-### 6. Financial Service
+### 6. Financial Service (AWS Lambda + Amazon RDS + QuickSight)
+
+**AWS Services Used:**
+- **AWS Lambda**: Financial calculations and report generation
+- **Amazon RDS PostgreSQL**: Financial transactions and ledger
+- **Amazon S3**: Receipt and invoice storage
+- **Amazon QuickSight**: Interactive financial dashboards
+- **Amazon SQS**: Batch processing of financial calculations
 
 **Responsibilities:**
-- Expense tracking
-- Revenue calculation
-- Profit and loss analysis
-- Financial reporting
+- Expense tracking with S3 receipt storage
+- Revenue calculation using Lambda functions
+- Profit and loss analysis with QuickSight
+- Financial reporting with automated PDF generation
 
 **Key Interfaces:**
 ```typescript
@@ -303,13 +476,31 @@ enum ExpenseCategory {
 }
 ```
 
-### 7. AI Assistant Service
+### 7. AI Assistant Service (Amazon Bedrock + AWS Lambda)
+
+**AWS Services Used:**
+- **Amazon Bedrock**: Claude 3 or Llama 3 for conversational AI
+- **AWS Lambda**: API handlers and context preparation
+- **Amazon Translate**: Real-time translation to/from Indian languages
+- **Amazon Polly**: Voice responses in Hindi, Tamil, Telugu
+- **Amazon Comprehend**: Query intent classification
+- **Amazon DynamoDB**: Conversation history and context storage
+- **Amazon ElastiCache**: Caching common query responses
+
+**Why Amazon Bedrock:**
+- **Multilingual Support**: Native support for Hindi, Tamil, Telugu
+- **Contextual Understanding**: Superior comprehension of farming terminology
+- **Indian Context**: Can be fine-tuned with Indian poultry practices
+- **Cost-Effective**: Pay-per-token pricing, no model hosting costs
+- **Privacy**: Data not used for model training
+- **Low Latency**: Mumbai region deployment for fast responses
 
 **Responsibilities:**
-- Chatbot for poultry-related queries
-- Disease prevention guidance
-- Best practice recommendations
-- Contextual farm advice
+- Chatbot for poultry queries using Bedrock's conversational AI
+- Disease prevention guidance with context-aware recommendations
+- Best practice recommendations based on farm data analysis
+- Contextual farm advice using Bedrock's reasoning capabilities
+- Voice interaction via Polly for low-literacy farmers
 
 **Key Interfaces:**
 ```typescript
@@ -336,13 +527,20 @@ interface AIResponse {
 }
 ```
 
-### 8. Reporting Service
+### 8. Reporting Service (AWS Lambda + Amazon QuickSight)
+
+**AWS Services Used:**
+- **AWS Lambda**: Report generation and data aggregation
+- **Amazon QuickSight**: Interactive dashboards and visualizations
+- **Amazon S3**: Report storage and archival
+- **Amazon SES**: Email delivery of reports
+- **Amazon Athena**: Ad-hoc SQL queries on historical data
 
 **Responsibilities:**
-- Monthly farm performance reports
-- Exportable data
-- Custom report generation
-- Data visualization
+- Monthly farm performance reports via QuickSight
+- Exportable data to CSV/PDF stored in S3
+- Custom report generation with Lambda
+- Data visualization through QuickSight dashboards
 
 **Key Interfaces:**
 ```typescript
@@ -363,13 +561,21 @@ interface MonthlyReport {
 }
 ```
 
-### 9. Notification Service
+### 9. Notification Service (Amazon SNS + Amazon SES)
+
+**AWS Services Used:**
+- **Amazon SNS**: Multi-channel notifications (SMS, push, email)
+- **Amazon SES**: Transactional email delivery
+- **AWS Lambda**: Notification formatting and routing
+- **Amazon EventBridge**: Scheduled reminders and alerts
+- **Amazon DynamoDB**: Notification preferences and delivery tracking
+- **Amazon Pinpoint**: Advanced user engagement and analytics
 
 **Responsibilities:**
-- Push notifications
-- SMS alerts
-- Email notifications
-- Reminder management
+- Push notifications via SNS mobile push
+- SMS alerts through SNS SMS (optimized for Indian carriers)
+- Email notifications using SES
+- Reminder management with EventBridge schedules
 
 **Key Interfaces:**
 ```typescript
@@ -534,19 +740,37 @@ enum TransactionType {
 
 ### Database Schema Design
 
-The system uses PostgreSQL as the primary database with the following key design principles:
+**Amazon RDS PostgreSQL Configuration:**
+- **Instance Type**: db.t4g.micro (Free Tier) to db.r6g.xlarge (production)
+- **Multi-AZ Deployment**: High availability for production
+- **Automated Backups**: Daily backups with 7-day retention
+- **Read Replicas**: For reporting and analytics workloads
+- **Encryption**: At-rest encryption using AWS KMS
+- **Region**: Asia Pacific (Mumbai) for low latency
 
-1. **Normalization**: Proper normalization to reduce data redundancy
-2. **Indexing**: Strategic indexing for query performance
-3. **Partitioning**: Time-based partitioning for large tables
-4. **Audit Trail**: Comprehensive audit logging for all critical operations
-5. **Soft Deletes**: Soft deletion for data recovery capabilities
+**Amazon DynamoDB Tables:**
+- **Active Batches**: Fast access to current batch data
+- **Production Records**: Time-series data with TTL for archival
+- **User Preferences**: Low-latency user settings access
+- **Conversation History**: AI assistant chat logs
+- **Notification Queue**: Pending notifications with delivery tracking
+
+**Database Design Principles:**
+
+1. **Hybrid Storage Strategy**: RDS for relational data, DynamoDB for high-velocity data
+2. **Normalization**: Proper normalization in RDS to reduce redundancy
+3. **Indexing**: Strategic indexing with RDS Performance Insights monitoring
+4. **Partitioning**: Time-based partitioning for large RDS tables
+5. **Audit Trail**: CloudTrail and RDS audit logs for compliance
+6. **Soft Deletes**: Soft deletion with S3 archival for data recovery
+7. **Cost Optimization**: DynamoDB on-demand pricing for variable workloads
 
 Key tables and relationships:
-- Users (1:N) Farms
-- Farms (1:N) Batches
-- Batches (1:N) ProductionRecords, FeedRecords, HealthRecords
-- Farms (1:N) FinancialRecords
+- Users (1:N) Farms (RDS)
+- Farms (1:N) Batches (RDS + DynamoDB cache)
+- Batches (1:N) ProductionRecords (DynamoDB time-series)
+- Batches (1:N) FeedRecords, HealthRecords (RDS)
+- Farms (1:N) FinancialRecords (RDS)
 - All tables include audit fields (created_at, updated_at, created_by, updated_by)
 ## Correctness Properties
 
@@ -597,6 +821,158 @@ After analyzing all acceptance criteria from the prework analysis, several prope
 *For any* report generation or data export request, the System should compile accurate data from all relevant sources, generate comprehensive reports with proper calculations, and export data while maintaining integrity and completeness.
 **Validates: Requirements 8.1, 8.2**
 
+## AWS-Specific Implementation Details
+
+### Offline Functionality with AWS Amplify DataStore
+
+**AWS Amplify DataStore** provides seamless offline/online synchronization:
+
+```typescript
+// Amplify DataStore configuration for offline-first
+import { DataStore } from '@aws-amplify/datastore'
+
+// Automatic sync when online
+DataStore.configure({
+  syncExpressions: [
+    syncExpression(Batch, b => b.farmId('eq', currentFarmId)),
+    syncExpression(ProductionRecord, p => p.date('gt', thirtyDaysAgo))
+  ],
+  maxRecordsToSync: 10000,
+  syncPageSize: 1000
+})
+
+// Works offline automatically
+await DataStore.save(new ProductionRecord({
+  batchId: 'batch-123',
+  date: new Date(),
+  eggCount: 850
+}))
+// Syncs to AWS when connection restored
+```
+
+### Multi-Language Support with Amazon Translate
+
+**Real-time Translation Pipeline:**
+
+```typescript
+// Lambda function for AI response translation
+import { TranslateClient, TranslateTextCommand } from '@aws-sdk/client-translate'
+
+async function translateAIResponse(text: string, targetLanguage: string) {
+  const client = new TranslateClient({ region: 'ap-south-1' })
+  const command = new TranslateTextCommand({
+    Text: text,
+    SourceLanguageCode: 'en',
+    TargetLanguageCode: targetLanguage // hi, ta, te
+  })
+  const response = await client.send(command)
+  return response.TranslatedText
+}
+```
+
+### AI Assistant with Amazon Bedrock
+
+**Bedrock Integration for Contextual Farming Advice:**
+
+```typescript
+// Lambda function for AI assistant
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+
+async function getAIResponse(query: string, farmContext: FarmContext) {
+  const client = new BedrockRuntimeClient({ region: 'ap-south-1' })
+  
+  const prompt = `You are an expert in Indian poultry farming. 
+Farm Context: ${JSON.stringify(farmContext)}
+Farmer Question: ${query}
+Provide practical advice considering Indian climate, local breeds, and rural conditions.`
+
+  const command = new InvokeModelCommand({
+    modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
+    contentType: 'application/json',
+    accept: 'application/json',
+    body: JSON.stringify({
+      anthropic_version: 'bedrock-2023-05-31',
+      max_tokens: 1000,
+      messages: [{
+        role: 'user',
+        content: prompt
+      }]
+    })
+  })
+  
+  const response = await client.send(command)
+  return JSON.parse(new TextDecoder().decode(response.body))
+}
+```
+
+### Cost Optimization Strategies
+
+**AWS Cost Management for Agricultural Startups:**
+
+1. **Lambda Functions**: Pay only for actual compute time (first 1M requests free)
+2. **DynamoDB On-Demand**: No upfront costs, pay per request
+3. **S3 Intelligent-Tiering**: Automatic cost optimization for file storage
+4. **RDS Reserved Instances**: 40-60% savings for production database
+5. **CloudFront**: Free tier includes 1TB data transfer
+6. **Bedrock**: Pay-per-token, no model hosting costs
+7. **Amplify Hosting**: Free tier for small deployments
+
+**Estimated Monthly Cost (1000 active farmers):**
+- Lambda: $5-10 (within free tier initially)
+- RDS db.t4g.micro: $15-20
+- DynamoDB: $10-15 (on-demand)
+- S3: $5-10
+- Bedrock: $20-30 (based on usage)
+- SNS/SES: $10-15
+- CloudFront: $5-10
+- **Total: ~$70-110/month** (scales with usage)
+
+### Security Implementation with AWS Services
+
+**Multi-Layer Security Architecture:**
+
+1. **Amazon Cognito**: User authentication with MFA support
+2. **AWS IAM**: Fine-grained access control for services
+3. **AWS KMS**: Encryption key management for data at rest
+4. **AWS WAF**: Web application firewall for API Gateway
+5. **AWS Shield**: DDoS protection
+6. **AWS Secrets Manager**: Secure credential storage
+7. **VPC**: Network isolation for RDS and ElastiCache
+8. **CloudTrail**: Audit logging for compliance
+
+### Monitoring and Observability
+
+**AWS Monitoring Stack:**
+
+```typescript
+// CloudWatch custom metrics
+import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch'
+
+async function trackFarmMetric(metricName: string, value: number) {
+  const client = new CloudWatchClient({ region: 'ap-south-1' })
+  await client.send(new PutMetricDataCommand({
+    Namespace: 'PoultryMitra',
+    MetricData: [{
+      MetricName: metricName,
+      Value: value,
+      Unit: 'Count',
+      Timestamp: new Date()
+    }]
+  }))
+}
+
+// X-Ray tracing for distributed services
+import AWSXRay from 'aws-xray-sdk-core'
+const AWS = AWSXRay.captureAWS(require('aws-sdk'))
+```
+
+**CloudWatch Dashboards:**
+- API response times and error rates
+- Lambda function performance and costs
+- Database connection pool metrics
+- AI assistant query patterns
+- User engagement metrics
+
 ## Error Handling
 
 ### Error Categories and Response Strategies
@@ -645,19 +1021,23 @@ enum BusinessError {
 // Strategy: Business rule validation, contextual error messages, suggested corrections
 ```
 
-#### 4. System and Infrastructure Errors
+#### 4. AWS Service Errors
 ```typescript
-enum SystemError {
-  DATABASE_CONNECTION_FAILED = 'DATABASE_CONNECTION_FAILED',
-  EXTERNAL_SERVICE_UNAVAILABLE = 'EXTERNAL_SERVICE_UNAVAILABLE',
-  INSUFFICIENT_STORAGE = 'INSUFFICIENT_STORAGE',
-  RATE_LIMIT_EXCEEDED = 'RATE_LIMIT_EXCEEDED',
-  AI_SERVICE_TIMEOUT = 'AI_SERVICE_TIMEOUT',
-  SMS_DELIVERY_FAILED = 'SMS_DELIVERY_FAILED'
+enum AWSServiceError {
+  RDS_CONNECTION_FAILED = 'RDS_CONNECTION_FAILED',
+  DYNAMODB_THROTTLING = 'DYNAMODB_THROTTLING',
+  LAMBDA_TIMEOUT = 'LAMBDA_TIMEOUT',
+  BEDROCK_RATE_LIMIT = 'BEDROCK_RATE_LIMIT',
+  S3_ACCESS_DENIED = 'S3_ACCESS_DENIED',
+  SNS_DELIVERY_FAILED = 'SNS_DELIVERY_FAILED',
+  COGNITO_TOKEN_EXPIRED = 'COGNITO_TOKEN_EXPIRED',
+  API_GATEWAY_THROTTLE = 'API_GATEWAY_THROTTLE'
 }
 
-// Strategy: Retry mechanisms, graceful degradation, fallback services
-// User-friendly error messages, automatic recovery where possible
+// Strategy: AWS SDK automatic retry with exponential backoff
+// CloudWatch alarms for service issues
+// Graceful degradation with cached data
+// User-friendly error messages in local language
 ```
 
 #### 5. Offline and Synchronization Errors
@@ -674,36 +1054,44 @@ enum SyncError {
 // Data integrity checks, manual conflict resolution options
 ```
 
-### Error Recovery Mechanisms
+### Error Recovery Mechanisms with AWS Services
 
-1. **Automatic Retry with Exponential Backoff**
-   - Network failures: 3 retries with 1s, 2s, 4s delays
-   - External service calls: 5 retries with jitter
-   - Database operations: 2 retries with connection pool refresh
+1. **Automatic Retry with AWS SDK Exponential Backoff**
+   - **AWS SDK Built-in Retry**: Automatic retry for throttling and transient errors
+   - **Lambda Retry**: Automatic retry for failed invocations (2 retries)
+   - **SQS Dead Letter Queue**: Failed messages moved to DLQ for analysis
+   - **RDS Connection Pooling**: RDS Proxy for connection management
+   - **DynamoDB Auto-scaling**: Automatic capacity adjustment to prevent throttling
 
-2. **Graceful Degradation**
-   - Offline mode when connectivity is lost
-   - Cached data display when real-time data unavailable
-   - Basic functionality when AI services are down
-   - SMS fallback when push notifications fail
+2. **Graceful Degradation with AWS Services**
+   - **Amplify DataStore**: Offline mode with automatic sync when online
+   - **ElastiCache**: Cached data display when RDS is unavailable
+   - **CloudFront**: Edge caching for static content during outages
+   - **SNS Multi-channel**: SMS fallback when push notifications fail
+   - **Lambda Reserved Concurrency**: Guaranteed capacity for critical functions
 
 3. **User-Friendly Error Communication**
-   - Error messages in user's preferred language
-   - Contextual help and suggested actions
-   - Clear indication of temporary vs permanent issues
-   - Progress indicators for recovery operations
+   - **Amazon Translate**: Error messages in user's preferred language
+   - **CloudWatch Logs Insights**: Error pattern detection and analysis
+   - **SNS**: Real-time error notifications to users
+   - **API Gateway**: Custom error responses with helpful messages
+   - **Amplify**: Progress indicators for sync operations
 
-4. **Data Recovery and Backup**
-   - Automatic local data backup before sync
-   - Point-in-time recovery for critical data
-   - Manual data export capabilities
-   - Rollback mechanisms for failed operations
+4. **Data Recovery and Backup with AWS**
+   - **RDS Automated Backups**: Daily backups with 7-day retention
+   - **RDS Point-in-Time Recovery**: Restore to any second within retention period
+   - **DynamoDB Point-in-Time Recovery**: Continuous backups for 35 days
+   - **S3 Versioning**: File version history for recovery
+   - **Amplify DataStore**: Local data backup before sync
+   - **AWS Backup**: Centralized backup management across services
 
-5. **Monitoring and Alerting**
-   - Real-time error monitoring and alerting
-   - Performance metrics tracking
-   - User experience impact assessment
-   - Proactive issue detection and resolution
+5. **Monitoring and Alerting with AWS**
+   - **CloudWatch Alarms**: Real-time alerts for service issues
+   - **CloudWatch Dashboards**: Visual monitoring of all metrics
+   - **AWS X-Ray**: Distributed tracing for performance analysis
+   - **CloudWatch Logs Insights**: Log analysis and pattern detection
+   - **AWS Health Dashboard**: AWS service status monitoring
+   - **SNS**: Alert delivery to operations team
 
 ## Testing Strategy
 
